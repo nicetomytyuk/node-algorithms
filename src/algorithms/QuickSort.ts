@@ -24,7 +24,10 @@ export class QuickSort implements ISort {
     }
 
     private partition(arr: number[], low: number, high: number): number {
-        const pivot = arr[high];
+        const pivotIndex = this.randomPivot(low, high);
+        const pivot = arr[pivotIndex];
+        [arr[pivotIndex], arr[high]] = [arr[high], arr[pivotIndex]];
+
         let i = low - 1;
         for (let j = low; j < high; j++) {
             if (arr[j] < pivot) {
@@ -34,5 +37,9 @@ export class QuickSort implements ISort {
         }
         [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
         return i + 1;
+    }
+
+    private randomPivot(low: number, high: number): number {
+        return Math.floor(Math.random() * (high - low + 1)) + low;
     }
 }

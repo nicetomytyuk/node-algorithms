@@ -2,8 +2,20 @@ import { BubbleSort, MergeSort, QuickSort } from "./algorithms";
 import { ISort } from "./interfaces/ISort";
 import { SortService } from "./services/SortService";
 
-function start() {
-    const data = Array.from({ length: 100000000 }, () => Math.floor(Math.random() * 100000000));
+import fs from "node:fs/promises";
+import path from "path";
+
+
+const filePath = path.join(__dirname, "data", "data.txt");
+async function readCSVToArray(path: string): Promise<number[]> {
+    const data = await fs.readFile(path, { encoding: "utf-8" });
+    return data.split("\n").map((item) => parseInt(item));
+}
+
+async function start() {
+    const data = await readCSVToArray(filePath);
+
+    console.log(`Testing sorting algorithms of ${data.length} elements`);
 
     const measure = (sorter: ISort) => {
         const service = new SortService(sorter);

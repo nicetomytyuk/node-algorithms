@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { SortService } from "../SortService";
 import { BubbleSort, MergeSort, QuickSort } from "../../algorithms";
+import { ISort } from "../../interfaces/ISort";
 
 describe("SortService", () => {
     const data = [5, 4, 3, 2, 1];
@@ -30,4 +31,21 @@ describe("SortService", () => {
         const result = service.sort(data);
         expect(result).toEqual(expected);
     });
+
+    // Or by using an express function
+
+    const testSort = (Sorter: new () => ISort, array: number[]) => {
+        test(`should sort array using ${Sorter.name}`, () => {
+            const sorter = new Sorter();
+            const service = new SortService(sorter);
+    
+            const result = service.sort(array);
+            expect(result).toEqual(expected);
+        }); 
+    }
+
+    testSort(BubbleSort, data);
+    testSort(MergeSort, data);
+    testSort(QuickSort, data);
+
 });

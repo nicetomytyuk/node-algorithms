@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test } from "vitest";
 import { QuickSort } from "../QuickSort";
 
 describe("QuickSort", () => {
@@ -7,6 +7,13 @@ describe("QuickSort", () => {
         const data = [5, 4, 3, 2, 1];
         const expected = [1, 2, 3, 4, 5];
         expect(sorter.sort(data)).toEqual(expected);
+    });
+
+    test("should sort array in descending order", () => {
+        const sorter = new QuickSort();
+        const data = [1, 2, 3, 4, 5];
+        const expected = [5, 4, 3, 2, 1];
+        expect(sorter.sort(data, (a, b) => b - a)).toEqual(expected);
     });
 
     test("should handle empty array", () => {

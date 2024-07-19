@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { SortService } from "../SortService";
 import { BubbleSort, MergeSort, QuickSort } from "../../algorithms";
 import { ISort } from "../../interfaces/ISort";
@@ -30,6 +30,15 @@ describe("SortService", () => {
 
         const result = service.sort(data);
         expect(result).toEqual(expected);
+    });
+
+    test("should throw error for array with non-number elements using QuickSort", () => {
+        const sorter = new QuickSort();
+
+        vi.spyOn(sorter, "sort").mockImplementationOnce(() => { throw new Error("Array must contain only numbers") });
+
+        const service = new SortService(sorter);
+        expect(() => service.sort([1, 2, 3, "4", 5] as any)).toThrowError("Array must contain only numbers");
     });
 
     // Or by using an express function
